@@ -6,6 +6,6 @@ namespace PayByBank.Pokemon.Common.Interfaces
 {
     public interface IPokemonHttpRepository
     {
-        public Task<PokemonResponse> FindPokemon(string pokemonName, CancellationToken cancellationToken);
+        public Task<string> FindPokemonAsync(string pokemonName, CancellationToken cancellationToken);
     }
 }

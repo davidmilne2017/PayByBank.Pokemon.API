@@ -1,5 +1,4 @@
-﻿using PayByBank.Pokemon.Common.Domain;
-using PayByBank.Pokemon.Common.Interfaces;
+﻿using PayByBank.Pokemon.Common.Interfaces;
 using System.Configuration;
 using System.Net.Http;
 using System.Threading;
