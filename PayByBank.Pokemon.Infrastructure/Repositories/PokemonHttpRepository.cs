@@ -1,4 +1,6 @@
-﻿using PayByBank.Pokemon.Common.Interfaces;
+﻿using PayByBank.Pokemon.Common.Domain;
+using PayByBank.Pokemon.Common.Interfaces;
+using System;
 using System.Configuration;
 using System.Net.Http;
 using System.Threading;
@@ -18,10 +20,18 @@ namespace PayByBank.Pokemon.Infrastructure.Repositories
         {
         }
 
-        public async Task<string> FindPokemonAsync(string pokemonName, CancellationToken cancellationToken)
+        public async Task<PokemonApiReturn> FindPokemonAsync(string pokemonName, CancellationToken cancellationToken)
         {
-            var endPoint = $"{Resource}/{pokemonName}";
-            return await GetAsync<string>(endPoint, cancellationToken).ConfigureAwait(false);
+            try
+            {
+                var endPoint = $"{Resource}/{pokemonName}";
+                return await GetAsync<PokemonApiReturn>(endPoint, cancellationToken).ConfigureAwait(false);
+            }
+            catch
+            {
+                return default;
+            }
+            
         }
     }
 }

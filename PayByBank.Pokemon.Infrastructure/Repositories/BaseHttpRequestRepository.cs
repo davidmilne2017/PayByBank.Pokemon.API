@@ -33,7 +33,7 @@ namespace PayByBank.Pokemon.Infrastructure.Repositories
         protected abstract ApiSource ApiSource { get; }
 
         protected async Task<TReturn> GetAsync<TReturn>(string endPoint, CancellationToken cancellationToken)
-        {
+        { 
             using var request = new HttpRequestMessage(HttpMethod.Get, endPoint);
             var client = httpClientFactory.CreateClient(ApiSource.ToString());
             try

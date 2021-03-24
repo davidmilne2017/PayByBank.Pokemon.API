@@ -1,8 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "I0EnvjNYXdoN80iNCltTi7zjEOdQ93H5jUbxL1A97q2DDBXcL5M/k7oCiik2khpvhqLPWMzeP3DI+NoHNVaM4g==",
+  "dgSpecHash": "G+XS+Cps0MDTzyKcZ6gVgxHazyQuGOfutiwzF3xg2ME8DK9QRRXf8pBrChtKLXcU3JAjKnJFFRrZPvxjgeni3A==",
   "success": true,
   "projectFilePath": "C:\\Users\\david\\source\\repos\\PayByBank.Pokemon.API\\PayByBank.Pokemon.Common\\PayByBank.Pokemon.Common.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "C:\\Users\\david\\.nuget\\packages\\newtonsoft.json\\13.0.1\\newtonsoft.json.13.0.1.nupkg.sha512"
+  ],
   "logs": []
 }

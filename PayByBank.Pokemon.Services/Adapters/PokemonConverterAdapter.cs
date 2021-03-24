@@ -1,4 +1,5 @@
-﻿using PayByBank.Pokemon.Common.Domain;
+﻿using System.Linq;
+using PayByBank.Pokemon.Common.Domain;
 using PayByBank.Pokemon.Common.Interfaces;
 using System;
 
@@ -6,9 +7,29 @@ namespace PayByBank.Pokemon.Services.Adapters
 {
     public class PokemonConverterAdapter : IPokemonConverterAdapter
     {
-        public PokemonResponse ConvertPokemon(string pokemonJson)
+
+        private const string language = "en";
+
+        public PokemonResponse ConvertPokemon(PokemonApiReturn pokemon)
         {
-            throw new NotImplementedException();
+
+            try
+            {
+                var pokemonResponse = new PokemonResponse()
+                {
+                    Name = pokemon.names.FirstOrDefault(x => x.language.name == language).name,
+                    IsLegendary = pokemon.is_legendary,
+                    Habitat = pokemon.habitat.name,
+                    Description = pokemon.flavor_text_entries.FirstOrDefault(x => x.language.name == language).flavor_text
+                };
+
+                return pokemonResponse;
+            }
+            catch (Exception ex)
+            {
+                //add logging code
+                return default;
+            };            
         }
     }
 }
