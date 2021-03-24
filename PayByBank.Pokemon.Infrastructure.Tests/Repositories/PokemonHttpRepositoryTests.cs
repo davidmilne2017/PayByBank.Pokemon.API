@@ -1,7 +1,7 @@
 ﻿using FluentAssertions;
 using Moq;
+using AutoFixture;
 using Moq.Protected;
-using System.Linq;
 using PayByBank.Pokemon.Common.Domain;
 using PayByBank.Pokemon.Infrastructure.Repositories;
 using System;
@@ -9,13 +9,13 @@ using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
-using AutoFixture;
 using PayByBank.Pokemon.Common.Interfaces;
 
 namespace PayByBank.Pokemon.Infrastructure.Tests.Repositories
 {
     public class PokemonHttpRepositoryTests
     {
+
         private readonly Fixture fixture;
 
         public PokemonHttpRepositoryTests()
@@ -33,18 +33,7 @@ namespace PayByBank.Pokemon.Infrastructure.Tests.Repositories
             var pokemonReturn = Common.Resources.Pokemon.ResourceManager.GetString("pikachu");
             var baseAddress = "http://test.com/";
             var resource = "api/test";
-
-            var expName = "Pikachu";
-            var expHabitat = "forest";
-            var expIsLegendary = false;
-            var expDescription = "Some description";
-            var expPokemon = new PokemonResponse()
-            {
-                Name = expName,
-                Habitat = expHabitat,
-                IsLegendary = expIsLegendary,
-                Description = expDescription
-            };
+            var expPokemon = fixture.Create<PokemonResponse>();
 
             handlerMock
                 .Protected()
