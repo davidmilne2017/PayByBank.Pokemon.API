@@ -1,5 +1,5 @@
 ﻿using PayByBank.Pokemon.Common.Domain;
-using PayByBank.Pokemon.Services.Adapters;
+using PayByBank.Pokemon.Infrastructure.Adapters;
 using FluentAssertions;
 using System.Text.Json;
 using System.Linq;

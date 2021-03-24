@@ -9,33 +9,51 @@ using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
+using AutoFixture;
+using PayByBank.Pokemon.Common.Interfaces;
 
 namespace PayByBank.Pokemon.Infrastructure.Tests.Repositories
 {
     public class PokemonHttpRepositoryTests
     {
+        private readonly Fixture fixture;
+
+        public PokemonHttpRepositoryTests()
+        {
+            this.fixture = new Fixture();
+        }
 
         [Fact]
-        public async Task FindPokemonAsync_CorrectResponse_ReturnsString()
+        public async Task FindPokemonAsync_CorrectResponse_ReturnsPokemon()
         {
             //Arrange
             var httpClientFactoryMock = new Mock<IHttpClientFactory>();
             var handlerMock = new Mock<HttpMessageHandler>(MockBehavior.Strict);
+            var pokemonConverterAdapterMock = new Mock<IPokemonConverterAdapter>();
             var pokemonReturn = Common.Resources.Pokemon.ResourceManager.GetString("pikachu");
             var baseAddress = "http://test.com/";
             var resource = "api/test";
+
             var expName = "Pikachu";
             var expHabitat = "forest";
-            var expFlavourEntryCount = 328;
+            var expIsLegendary = false;
+            var expDescription = "Some description";
+            var expPokemon = new PokemonResponse()
+            {
+                Name = expName,
+                Habitat = expHabitat,
+                IsLegendary = expIsLegendary,
+                Description = expDescription
+            };
 
             handlerMock
                 .Protected()
                 .Setup<Task<HttpResponseMessage>>("SendAsync", ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>())
                 .ReturnsAsync(new HttpResponseMessage()
-                 {
-                     StatusCode = System.Net.HttpStatusCode.OK,
-                     Content = new StringContent(pokemonReturn),
-                 })
+                {
+                    StatusCode = System.Net.HttpStatusCode.OK,
+                    Content = new StringContent(pokemonReturn),
+                })
                 .Verifiable();
 
             var httpClient = new HttpClient(handlerMock.Object)
@@ -43,20 +61,19 @@ namespace PayByBank.Pokemon.Infrastructure.Tests.Repositories
                 BaseAddress = new Uri(baseAddress),
             };
 
-            var sut = new PokemonHttpRepository(httpClientFactoryMock.Object);
+            var sut = new PokemonHttpRepository(httpClientFactoryMock.Object, pokemonConverterAdapterMock.Object);
             var token = new CancellationToken();
             httpClientFactoryMock.Setup(x => x.CreateClient(It.IsAny<string>())).Returns(httpClient);
+            pokemonConverterAdapterMock.Setup(x => x.ConvertPokemon(It.IsAny<PokemonApiReturn>())).Returns(expPokemon);
 
             //Act
             var result = await sut.FindPokemonAsync(resource, token);
 
             //Assert
             result.Should().NotBeNull();
-            result.Should().BeOfType<PokemonApiReturn>();
-            result.flavor_text_entries.Should().HaveCount(expFlavourEntryCount);
-            result.names.FirstOrDefault(x => x.language.name == "en").name.Should().Be(expName);
-            result.is_legendary.Should().BeFalse();
-            result.habitat.name.Should().Be(expHabitat);
+            result.Should().BeOfType<PokemonResponse>();
+            result.Should().Be(expPokemon);
+            
             var expectedUri = new Uri($"{baseAddress}{resource}");
 
             handlerMock.Protected().Verify(
@@ -72,10 +89,11 @@ namespace PayByBank.Pokemon.Infrastructure.Tests.Repositories
         }
 
         [Fact]
-        public async Task FindPokemonAsync_CorrectResponse_ReturnsNull()
+        public async Task FindPokemonAsync_InCorrectResponse_ReturnsNull()
         {
             //Arrange
             var httpClientFactoryMock = new Mock<IHttpClientFactory>();
+            var pokemonConverterAdapterMock = new Mock<IPokemonConverterAdapter>();
             var handlerMock = new Mock<HttpMessageHandler>(MockBehavior.Strict);
             var baseAddress = "http://test.com/";
             var resource = "api/test";
@@ -91,7 +109,7 @@ namespace PayByBank.Pokemon.Infrastructure.Tests.Repositories
                 BaseAddress = new Uri(baseAddress),
             };
 
-            var sut = new PokemonHttpRepository(httpClientFactoryMock.Object);
+            var sut = new PokemonHttpRepository(httpClientFactoryMock.Object, pokemonConverterAdapterMock.Object);
             var token = new CancellationToken();
             httpClientFactoryMock.Setup(x => x.CreateClient(It.IsAny<string>())).Returns(httpClient);
 

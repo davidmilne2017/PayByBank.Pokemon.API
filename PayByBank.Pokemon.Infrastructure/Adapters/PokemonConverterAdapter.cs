@@ -3,7 +3,7 @@ using PayByBank.Pokemon.Common.Domain;
 using PayByBank.Pokemon.Common.Interfaces;
 using System;
 
-namespace PayByBank.Pokemon.Services.Adapters
+namespace PayByBank.Pokemon.Infrastructure.Adapters
 {
     public class PokemonConverterAdapter : IPokemonConverterAdapter
     {
@@ -29,7 +29,7 @@ namespace PayByBank.Pokemon.Services.Adapters
             {
                 //add logging code
                 return default;
-            };            
+            };
         }
     }
 }
