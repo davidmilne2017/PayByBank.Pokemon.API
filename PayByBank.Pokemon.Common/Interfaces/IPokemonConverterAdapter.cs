@@ -1,4 +1,5 @@
 ﻿using PayByBank.Pokemon.Common.Domain;
+using PayByBank.Pokemon.Common.Domain.Pokemon;
 
 namespace PayByBank.Pokemon.Common.Interfaces
 {

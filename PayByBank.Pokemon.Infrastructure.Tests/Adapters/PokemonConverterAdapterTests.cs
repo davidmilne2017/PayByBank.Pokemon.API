@@ -4,6 +4,7 @@ using FluentAssertions;
 using System.Text.Json;
 using System.Linq;
 using Xunit;
+using PayByBank.Pokemon.Common.Domain.Pokemon;
 
 namespace PayByBank.Pokemon.Services.Tests.Adapters
 {
@@ -18,6 +19,10 @@ namespace PayByBank.Pokemon.Services.Tests.Adapters
             //Arrange
             var pokemonReturn = TestPokemon();
             var sut = new PokemonConverterAdapter();
+            var expDescription = pokemonReturn.flavor_text_entries.FirstOrDefault(x => x.language.name == language).flavor_text
+                .Replace("\n", " ")
+                .Replace("\f", " ")
+                .Replace("\r", " ");
 
             //Act
             var response = sut.ConvertPokemon(pokemonReturn);
@@ -27,7 +32,7 @@ namespace PayByBank.Pokemon.Services.Tests.Adapters
             response.Name.Should().Be(pokemonReturn.names.FirstOrDefault(x => x.language.name == language).name);
             response.IsLegendary.Should().Be(pokemonReturn.is_legendary);
             response.Habitat.Should().Be(pokemonReturn.habitat.name);
-            response.Description.Should().Be(pokemonReturn.flavor_text_entries.FirstOrDefault(x => x.language.name == language).flavor_text);
+            response.Description.Should().Be(expDescription);
         }
 
         [Fact]
@@ -43,8 +48,6 @@ namespace PayByBank.Pokemon.Services.Tests.Adapters
             //Assert
             response.Should().BeNull();
         }
-
-
 
         private PokemonApiReturn TestPokemon()
         {

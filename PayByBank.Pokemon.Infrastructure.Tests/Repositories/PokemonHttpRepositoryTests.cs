@@ -10,6 +10,9 @@ using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
 using PayByBank.Pokemon.Common.Interfaces;
+using Microsoft.Extensions.Configuration;
+using PayByBank.Pokemon.Common.Constants;
+using PayByBank.Pokemon.Common.Domain.Pokemon;
 
 namespace PayByBank.Pokemon.Infrastructure.Tests.Repositories
 {
@@ -30,9 +33,15 @@ namespace PayByBank.Pokemon.Infrastructure.Tests.Repositories
             var httpClientFactoryMock = new Mock<IHttpClientFactory>();
             var handlerMock = new Mock<HttpMessageHandler>(MockBehavior.Strict);
             var pokemonConverterAdapterMock = new Mock<IPokemonConverterAdapter>();
+
+            var configurationSectionMock = new Mock<IConfigurationSection>();
+            configurationSectionMock.Setup(x => x.Value).Returns(Constants.PokemonApi);
+            var configurationMock = new Mock<IConfiguration>();
+            configurationMock.Setup(x => x.GetSection(It.Is<string>(k => k == Constants.PokemonApi))).Returns(configurationSectionMock.Object);
+
             var pokemonReturn = Common.Resources.Pokemon.ResourceManager.GetString("pikachu");
-            var baseAddress = "http://test.com/";
-            var resource = "api/test";
+            var resource = "https://test.com/";
+            var pokemonName = "pikachu";
             var expPokemon = fixture.Create<PokemonResponse>();
 
             handlerMock
@@ -47,23 +56,23 @@ namespace PayByBank.Pokemon.Infrastructure.Tests.Repositories
 
             var httpClient = new HttpClient(handlerMock.Object)
             {
-                BaseAddress = new Uri(baseAddress),
+                BaseAddress = new Uri(resource),
             };
 
-            var sut = new PokemonHttpRepository(httpClientFactoryMock.Object, pokemonConverterAdapterMock.Object);
+            var sut = new PokemonHttpRepository(httpClientFactoryMock.Object, pokemonConverterAdapterMock.Object, configurationMock.Object);
             var token = new CancellationToken();
             httpClientFactoryMock.Setup(x => x.CreateClient(It.IsAny<string>())).Returns(httpClient);
             pokemonConverterAdapterMock.Setup(x => x.ConvertPokemon(It.IsAny<PokemonApiReturn>())).Returns(expPokemon);
 
             //Act
-            var result = await sut.FindPokemonAsync(resource, token);
+            var result = await sut.FindPokemonAsync(pokemonName, token);
 
             //Assert
             result.Should().NotBeNull();
             result.Should().BeOfType<PokemonResponse>();
             result.Should().Be(expPokemon);
             
-            var expectedUri = new Uri($"{baseAddress}{resource}");
+            var expectedUri = new Uri($"{resource}{Constants.PokemonApi}/{pokemonName}");
 
             handlerMock.Protected().Verify(
                "SendAsync",
@@ -83,6 +92,12 @@ namespace PayByBank.Pokemon.Infrastructure.Tests.Repositories
             //Arrange
             var httpClientFactoryMock = new Mock<IHttpClientFactory>();
             var pokemonConverterAdapterMock = new Mock<IPokemonConverterAdapter>();
+
+            var configurationSectionMock = new Mock<IConfigurationSection>();
+            configurationSectionMock.Setup(x => x.Value).Returns(Constants.PokemonApi);
+            var configurationMock = new Mock<IConfiguration>();
+            configurationMock.Setup(x => x.GetSection(It.Is<string>(k => k == Constants.PokemonApi))).Returns(configurationSectionMock.Object);
+
             var handlerMock = new Mock<HttpMessageHandler>(MockBehavior.Strict);
             var baseAddress = "http://test.com/";
             var resource = "api/test";
@@ -98,7 +113,7 @@ namespace PayByBank.Pokemon.Infrastructure.Tests.Repositories
                 BaseAddress = new Uri(baseAddress),
             };
 
-            var sut = new PokemonHttpRepository(httpClientFactoryMock.Object, pokemonConverterAdapterMock.Object);
+            var sut = new PokemonHttpRepository(httpClientFactoryMock.Object, pokemonConverterAdapterMock.Object, configurationMock.Object);
             var token = new CancellationToken();
             httpClientFactoryMock.Setup(x => x.CreateClient(It.IsAny<string>())).Returns(httpClient);
 

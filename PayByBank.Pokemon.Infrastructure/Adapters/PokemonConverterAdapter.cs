@@ -2,6 +2,7 @@
 using PayByBank.Pokemon.Common.Domain;
 using PayByBank.Pokemon.Common.Interfaces;
 using System;
+using PayByBank.Pokemon.Common.Domain.Pokemon;
 
 namespace PayByBank.Pokemon.Infrastructure.Adapters
 {
@@ -21,6 +22,9 @@ namespace PayByBank.Pokemon.Infrastructure.Adapters
                     IsLegendary = pokemon.is_legendary,
                     Habitat = pokemon.habitat.name,
                     Description = pokemon.flavor_text_entries.FirstOrDefault(x => x.language.name == language).flavor_text
+                        .Replace("\n", " ")
+                        .Replace("\f", " ")
+                        .Replace("\r", " ")
                 };
 
                 return pokemonResponse;

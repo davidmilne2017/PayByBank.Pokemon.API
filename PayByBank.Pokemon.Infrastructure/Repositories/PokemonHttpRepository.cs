@@ -1,7 +1,8 @@
-﻿using PayByBank.Pokemon.Common.Domain;
+﻿using Microsoft.Extensions.Configuration;
+using PayByBank.Pokemon.Common.Constants;
+using PayByBank.Pokemon.Common.Domain;
+using PayByBank.Pokemon.Common.Domain.Pokemon;
 using PayByBank.Pokemon.Common.Interfaces;
-using System;
-using System.Configuration;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
@@ -14,14 +15,16 @@ namespace PayByBank.Pokemon.Infrastructure.Repositories
 
         protected override ApiSource ApiSource => ApiSource.POKEMON;
 
-        protected override string Resource => ConfigurationManager.AppSettings["PokemonApi"];
+        private readonly string Resource;
 
         public PokemonHttpRepository(
             IHttpClientFactory httpClientFactory,
-            IPokemonConverterAdapter pokemonConverterAdapter)
+            IPokemonConverterAdapter pokemonConverterAdapter,
+            IConfiguration configuration)
             : base(httpClientFactory)
         {
             this.pokemonConverterAdapter = pokemonConverterAdapter;
+            this.Resource = configuration.GetValue<string>(Constants.PokemonApi);
         }
 
         public async Task<PokemonResponse> FindPokemonAsync(string pokemonName, CancellationToken cancellationToken)
@@ -30,6 +33,10 @@ namespace PayByBank.Pokemon.Infrastructure.Repositories
             {
                 var endPoint = $"{Resource}/{pokemonName}";
                 var pokemonApiResponse =  await GetAsync<PokemonApiReturn>(endPoint, cancellationToken).ConfigureAwait(false);
+
+                if (pokemonApiResponse == null)
+                    return null;
+                
                 var pokemonResponse = pokemonConverterAdapter.ConvertPokemon(pokemonApiResponse);
                 return pokemonResponse;
             }

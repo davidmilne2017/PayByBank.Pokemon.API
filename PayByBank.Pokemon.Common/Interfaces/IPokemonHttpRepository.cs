@@ -1,4 +1,4 @@
-﻿using PayByBank.Pokemon.Common.Domain;
+﻿using PayByBank.Pokemon.Common.Domain.Pokemon;
 using System.Threading;
 using System.Threading.Tasks;
 

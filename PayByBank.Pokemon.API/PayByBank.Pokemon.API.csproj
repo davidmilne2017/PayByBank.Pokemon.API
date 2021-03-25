@@ -10,7 +10,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="5.0.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.1.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\PayByBank.Pokemon.Common\PayByBank.Pokemon.Common.csproj" />
+    <ProjectReference Include="..\PayByBank.Pokemon.Infrastructure\PayByBank.Pokemon.Infrastructure.csproj" />
+    <ProjectReference Include="..\PayByBank.Pokemon.Services\PayByBank.Pokemon.Services.csproj" />
   </ItemGroup>
 
 

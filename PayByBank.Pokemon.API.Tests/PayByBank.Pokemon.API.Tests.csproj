@@ -22,4 +22,9 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\PayByBank.Pokemon.API\PayByBank.Pokemon.API.csproj" />
+    <ProjectReference Include="..\PayByBank.Pokemon.Common\PayByBank.Pokemon.Common.csproj" />
+  </ItemGroup>
+
 </Project>

@@ -1,4 +1,4 @@
-﻿namespace PayByBank.Pokemon.Common.Domain
+﻿namespace PayByBank.Pokemon.Common.Domain.Pokemon
 {
     public class PokemonResponse
     {

@@ -1,9 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "f3tI5DodXINAt+KiahBvm8mEqfIbYUJMw6GQ6xzZK+aQJpiOGLXFt23Nr2LB2dBcnluT/zPWmomDUHBM94rQTA==",
+  "dgSpecHash": "tralx5BJjFCuOz8JoVsHNXX8A+MbfE2MQOJOWdXWHEKhwPvWXo5clbz+vgP+0W+1EX6t2QzXpowBLrr+v2K7Jw==",
   "success": true,
   "projectFilePath": "C:\\Users\\david\\source\\repos\\PayByBank.Pokemon.API\\PayByBank.Pokemon.Infrastructure\\PayByBank.Pokemon.Infrastructure.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\david\\.nuget\\packages\\microsoft.extensions.configuration.abstractions\\5.0.0\\microsoft.extensions.configuration.abstractions.5.0.0.nupkg.sha512",
+    "C:\\Users\\david\\.nuget\\packages\\microsoft.extensions.configuration.binder\\5.0.0\\microsoft.extensions.configuration.binder.5.0.0.nupkg.sha512",
     "C:\\Users\\david\\.nuget\\packages\\microsoft.extensions.dependencyinjection\\5.0.0\\microsoft.extensions.dependencyinjection.5.0.0.nupkg.sha512",
     "C:\\Users\\david\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\5.0.0\\microsoft.extensions.dependencyinjection.abstractions.5.0.0.nupkg.sha512",
     "C:\\Users\\david\\.nuget\\packages\\microsoft.extensions.http\\5.0.0\\microsoft.extensions.http.5.0.0.nupkg.sha512",
