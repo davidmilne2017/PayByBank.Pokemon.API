@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
 using PayByBank.Pokemon.Common.Constants;
-using PayByBank.Pokemon.Common.Domain;
 using PayByBank.Pokemon.Common.Domain.Pokemon;
 using PayByBank.Pokemon.Common.Interfaces;
 using System.Net.Http;
@@ -43,8 +42,7 @@ namespace PayByBank.Pokemon.Infrastructure.Repositories
             catch
             {
                 return default;
-            }
-            
+            }            
         }
     }
 }

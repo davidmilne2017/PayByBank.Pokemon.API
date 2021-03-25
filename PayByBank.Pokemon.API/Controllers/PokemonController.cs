@@ -11,7 +11,6 @@ namespace PayByBank.Pokemon.API.Controllers
 {
     [ApiController]
     [Produces("application/json")]
-    //[Route("api/[controller]")]
     public class PokemonController : ControllerBase
     {
         private readonly IPokemonService pokemonService;

@@ -3,11 +3,6 @@ using System;
 using System.Text.Json;
 using System.Threading.Tasks;
 using System.Threading;
-using System.Text;
-using System.Net.Http.Headers;
-using PayByBank.Pokemon.Common.Domain;
-using System.ComponentModel.DataAnnotations;
-using System.Security.Authentication;
 
 namespace PayByBank.Pokemon.Infrastructure.Repositories
 {

@@ -2,7 +2,6 @@
 using Moq;
 using AutoFixture;
 using Moq.Protected;
-using PayByBank.Pokemon.Common.Domain;
 using PayByBank.Pokemon.Infrastructure.Repositories;
 using System;
 using System.Net.Http;

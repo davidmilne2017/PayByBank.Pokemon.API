@@ -3,9 +3,7 @@ using PayByBank.Pokemon.Common.Constants;
 using PayByBank.Pokemon.Common.Domain.Translation;
 using PayByBank.Pokemon.Common.Interfaces;
 using System;
-using System.Collections.Generic;
 using System.Net.Http;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
@@ -40,8 +38,7 @@ namespace PayByBank.Pokemon.Infrastructure.Repositories
                 if (translationResponse == null || (translationResponse.Success?.Total ?? 0) == 0)
                     return text;
 
-                return (translationResponse.Contents?.Translated ?? text);
-                
+                return (translationResponse.Contents?.Translated ?? text);                
             }
             catch
             {

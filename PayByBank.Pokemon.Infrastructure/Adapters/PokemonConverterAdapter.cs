@@ -8,7 +8,6 @@ namespace PayByBank.Pokemon.Infrastructure.Adapters
 {
     public class PokemonConverterAdapter : IPokemonConverterAdapter
     {
-
         private const string language = "en";
 
         public PokemonResponse ConvertPokemon(PokemonApiReturn pokemon)
@@ -33,7 +32,7 @@ namespace PayByBank.Pokemon.Infrastructure.Adapters
             {
                 //add logging code
                 return default;
-            };
+            }
         }
     }
 }

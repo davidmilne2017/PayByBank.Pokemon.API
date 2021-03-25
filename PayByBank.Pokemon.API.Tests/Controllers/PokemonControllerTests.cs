@@ -117,6 +117,5 @@ namespace PayByBank.Pokemon.API.Tests.Controllers
             var value = result.Value.Should().BeOfType<PokemonResponse>().Subject;
             value.Should().Be(pokemonResponse);
         }
-
     }
 }

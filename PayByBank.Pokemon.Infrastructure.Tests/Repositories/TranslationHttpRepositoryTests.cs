@@ -35,7 +35,7 @@ namespace PayByBank.Pokemon.Infrastructure.Tests.Repositories
             configurationMock.Setup(x => x.GetSection(It.Is<string>(k => k == Constants.TranslationApi))).Returns(configurationSectionMock.Object);
             
             var translationType = TranslationType.YODA;
-            var translationResponse = CreateTranslationReponse(text, translatedText, translationType, total);
+            var translationResponse = CreateTranslationReponse(text, translatedText, total);
             var translatedResponseJson = JsonSerializer.Serialize(translationResponse, translationResponse.GetType(), Options);
 
             handlerMock
@@ -92,7 +92,7 @@ namespace PayByBank.Pokemon.Infrastructure.Tests.Repositories
             var translationType = TranslationType.YODA;
             var text = "Not translated text";
             var translatedText = "Translated text";
-            var translationResponse = CreateTranslationReponse(text, translatedText, translationType, 1);
+            var translationResponse = CreateTranslationReponse(text, translatedText, 1);
             translationResponse.Success = null;
             var translatedResponseJson = JsonSerializer.Serialize(translationResponse, translationResponse.GetType(), Options);            
 
@@ -133,7 +133,6 @@ namespace PayByBank.Pokemon.Infrastructure.Tests.Repositories
                ),
                ItExpr.IsAny<CancellationToken>()
             );
-
         }
 
         [Fact]
@@ -151,7 +150,7 @@ namespace PayByBank.Pokemon.Infrastructure.Tests.Repositories
             var translationType = TranslationType.YODA;
             var text = "Not translated text";
             var translatedText = "Translated text";
-            var translationResponse = CreateTranslationReponse(text, translatedText, translationType, 1);
+            var translationResponse = CreateTranslationReponse(text, translatedText, 1);
             translationResponse.Contents = null;
             var translatedResponseJson = JsonSerializer.Serialize(translationResponse, translationResponse.GetType(), Options);
 
@@ -192,7 +191,6 @@ namespace PayByBank.Pokemon.Infrastructure.Tests.Repositories
                ),
                ItExpr.IsAny<CancellationToken>()
             );
-
         }
 
         [Fact]
@@ -232,7 +230,7 @@ namespace PayByBank.Pokemon.Infrastructure.Tests.Repositories
             result.Should().Be(text);
         }
 
-        private TranslationResponse CreateTranslationReponse(string text, string translatedText, TranslationType translationType, int total)
+        private TranslationResponse CreateTranslationReponse(string text, string translatedText, int total)
         {
             return new TranslationResponse()
             {
@@ -263,6 +261,5 @@ namespace PayByBank.Pokemon.Infrastructure.Tests.Repositories
             DictionaryKeyPolicy = JsonNamingPolicy.CamelCase,
             WriteIndented = true
         };
-
     }
 }

@@ -32,9 +32,9 @@ namespace PayByBank.Pokemon.Services.Services
             {
                 //add logging
                 return default;
-            }
-            
+            }            
         }
+
         private async Task<string> TranslatePokemonAsync(PokemonResponse pokemonResponse, CancellationToken cancellationToken)
         {
             try
@@ -47,7 +47,6 @@ namespace PayByBank.Pokemon.Services.Services
                 //add logging
                 return pokemonResponse.Description;
             }
-
         }
     }
 }

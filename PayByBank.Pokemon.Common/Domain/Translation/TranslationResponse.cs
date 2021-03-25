@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace PayByBank.Pokemon.Common.Domain.Translation
+﻿namespace PayByBank.Pokemon.Common.Domain.Translation
 {
     public class TranslationResponse
     {

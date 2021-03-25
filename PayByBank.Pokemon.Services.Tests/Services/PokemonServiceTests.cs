@@ -9,7 +9,6 @@ using System.Threading;
 using PayByBank.Pokemon.Common.Domain.Pokemon;
 using System;
 using PayByBank.Pokemon.Common.Domain.Translation;
-using System.Text.Json;
 
 namespace PayByBank.Pokemon.Services.Tests.Services
 {
@@ -87,30 +86,5 @@ namespace PayByBank.Pokemon.Services.Tests.Services
             result.Should().Be(expPokemon);
             result.Description.Should().Be(expTranslation);
         }      
-        
-        [Fact]
-        public async Task TestDesrialization()
-        {
-            var response = @"{
-                                ""success"": {
-                                    ""total"": 1
-                                },
-                                ""contents"": {
-                                    ""translated"": ""'t is a nice day"",
-                                    ""text"": ""It is a nice day""
-                                }
-                            }";
-
-            var resp =  JsonSerializer.Deserialize<TranslationResponse>(response, Options);
-
-            resp.Should().BeOfType<TranslationResponse>();
-        }
-
-        private static readonly JsonSerializerOptions Options = new JsonSerializerOptions
-        {
-            PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-            DictionaryKeyPolicy = JsonNamingPolicy.CamelCase,
-            WriteIndented = true
-        };
     }
 }
