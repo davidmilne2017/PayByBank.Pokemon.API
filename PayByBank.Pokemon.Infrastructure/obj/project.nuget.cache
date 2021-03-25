@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "tralx5BJjFCuOz8JoVsHNXX8A+MbfE2MQOJOWdXWHEKhwPvWXo5clbz+vgP+0W+1EX6t2QzXpowBLrr+v2K7Jw==",
+  "dgSpecHash": "FFmsxPv7bkhrLp2QuAWKUpwMNBUT92TJiJUATuyuHf+aRTcxiWXBV3yj9tyX6AzqvDLwd9oAY8/1uo0JHy88Zg==",
   "success": true,
   "projectFilePath": "C:\\Users\\david\\source\\repos\\PayByBank.Pokemon.API\\PayByBank.Pokemon.Infrastructure\\PayByBank.Pokemon.Infrastructure.csproj",
   "expectedPackageFiles": [
@@ -16,6 +16,7 @@
     "C:\\Users\\david\\.nuget\\packages\\microsoft.netcore.platforms\\5.0.0\\microsoft.netcore.platforms.5.0.0.nupkg.sha512",
     "C:\\Users\\david\\.nuget\\packages\\microsoft.win32.systemevents\\5.0.0\\microsoft.win32.systemevents.5.0.0.nupkg.sha512",
     "C:\\Users\\david\\.nuget\\packages\\newtonsoft.json\\13.0.1\\newtonsoft.json.13.0.1.nupkg.sha512",
+    "C:\\Users\\david\\.nuget\\packages\\prometheus-net\\4.1.1\\prometheus-net.4.1.1.nupkg.sha512",
     "C:\\Users\\david\\.nuget\\packages\\system.configuration.configurationmanager\\5.0.0\\system.configuration.configurationmanager.5.0.0.nupkg.sha512",
     "C:\\Users\\david\\.nuget\\packages\\system.diagnostics.diagnosticsource\\5.0.0\\system.diagnostics.diagnosticsource.5.0.0.nupkg.sha512",
     "C:\\Users\\david\\.nuget\\packages\\system.drawing.common\\5.0.0\\system.drawing.common.5.0.0.nupkg.sha512",

@@ -1,14 +1,23 @@
 ﻿using System.Linq;
-using PayByBank.Pokemon.Common.Domain;
 using PayByBank.Pokemon.Common.Interfaces;
 using System;
 using PayByBank.Pokemon.Common.Domain.Pokemon;
+using Microsoft.Extensions.Logging;
+using PayByBank.Pokemon.Infrastructure.Monitoring.Errors;
+using PayByBank.Pokemon.Common.ErrorEnums;
+using PayByBank.Pokemon.Common.Constants;
 
 namespace PayByBank.Pokemon.Infrastructure.Adapters
 {
     public class PokemonConverterAdapter : IPokemonConverterAdapter
     {
         private const string language = "en";
+        private readonly ILogger<PokemonConverterAdapter> logger;
+
+        public PokemonConverterAdapter(ILogger<PokemonConverterAdapter> logger)
+        {
+            this.logger = logger;
+        }
 
         public PokemonResponse ConvertPokemon(PokemonApiReturn pokemon)
         {
@@ -30,7 +39,7 @@ namespace PayByBank.Pokemon.Infrastructure.Adapters
             }
             catch (Exception ex)
             {
-                //add logging code
+                logger.CustomLogError(ErrorCategory.APPLICATION, ex, ConstantValues.Error_InternalError_Adapter);
                 return default;
             }
         }

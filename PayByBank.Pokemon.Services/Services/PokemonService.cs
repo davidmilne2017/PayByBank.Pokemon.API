@@ -1,9 +1,13 @@
-﻿using PayByBank.Pokemon.Common.Domain.Pokemon;
+﻿using Microsoft.Extensions.Logging;
+using PayByBank.Pokemon.Common.Constants;
+using PayByBank.Pokemon.Common.Domain.Pokemon;
 using PayByBank.Pokemon.Common.Domain.Translation;
+using PayByBank.Pokemon.Common.ErrorEnums;
 using PayByBank.Pokemon.Common.Interfaces;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using PayByBank.Pokemon.Infrastructure.Monitoring.Errors;
 
 namespace PayByBank.Pokemon.Services.Services
 {
@@ -11,11 +15,13 @@ namespace PayByBank.Pokemon.Services.Services
     {
         private readonly IPokemonHttpRepository pokemonHttpRepository;
         private readonly ITranslationHttpRepository translationHttpRepository;
+        private readonly ILogger<PokemonService> logger;
 
-        public PokemonService(IPokemonHttpRepository pokemonHttpRepository, ITranslationHttpRepository translationHttpRepository)
+        public PokemonService(IPokemonHttpRepository pokemonHttpRepository, ITranslationHttpRepository translationHttpRepository, ILogger<PokemonService> logger)
         {
             this.pokemonHttpRepository = pokemonHttpRepository;
             this.translationHttpRepository = translationHttpRepository;
+            this.logger = logger;
         }
 
         public async Task<PokemonResponse> SearchPokemonAsync(string pokemonName, bool translate, CancellationToken cancellationToken)
@@ -30,7 +36,7 @@ namespace PayByBank.Pokemon.Services.Services
             }
             catch(Exception ex)
             {
-                //add logging
+                logger.CustomLogError(ErrorCategory.APPLICATION, ex, ConstantValues.Error_InternalError_Service);
                 return default;
             }            
         }
@@ -44,7 +50,7 @@ namespace PayByBank.Pokemon.Services.Services
             }
             catch (Exception ex)
             {
-                //add logging
+                logger.CustomLogError(ErrorCategory.APPLICATION, ex, ConstantValues.Error_InternalError_Service);
                 return pokemonResponse.Description;
             }
         }

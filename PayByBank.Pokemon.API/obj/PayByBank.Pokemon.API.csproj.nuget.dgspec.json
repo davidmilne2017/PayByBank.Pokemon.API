@@ -60,6 +60,10 @@
             "Swashbuckle.AspNetCore": {
               "target": "Package",
               "version": "[6.1.1, )"
+            },
+            "prometheus-net.AspNetCore": {
+              "target": "Package",
+              "version": "[4.1.1, )"
             }
           },
           "imports": [
@@ -209,6 +213,10 @@
             "System.Configuration.ConfigurationManager": {
               "target": "Package",
               "version": "[5.0.0, )"
+            },
+            "prometheus-net": {
+              "target": "Package",
+              "version": "[4.1.1, )"
             }
           },
           "imports": [
@@ -259,6 +267,9 @@
             "projectReferences": {
               "C:\\Users\\david\\source\\repos\\PayByBank.Pokemon.API\\PayByBank.Pokemon.Common\\PayByBank.Pokemon.Common.csproj": {
                 "projectPath": "C:\\Users\\david\\source\\repos\\PayByBank.Pokemon.API\\PayByBank.Pokemon.Common\\PayByBank.Pokemon.Common.csproj"
+              },
+              "C:\\Users\\david\\source\\repos\\PayByBank.Pokemon.API\\PayByBank.Pokemon.Infrastructure\\PayByBank.Pokemon.Infrastructure.csproj": {
+                "projectPath": "C:\\Users\\david\\source\\repos\\PayByBank.Pokemon.API\\PayByBank.Pokemon.Infrastructure\\PayByBank.Pokemon.Infrastructure.csproj"
               }
             }
           }
@@ -272,6 +283,12 @@
       "frameworks": {
         "netcoreapp3.1": {
           "targetAlias": "netcoreapp3.1",
+          "dependencies": {
+            "Microsoft.Extensions.Logging.Abstractions": {
+              "target": "Package",
+              "version": "[5.0.0, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",

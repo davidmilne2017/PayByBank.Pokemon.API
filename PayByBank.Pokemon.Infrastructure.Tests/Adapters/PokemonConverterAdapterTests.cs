@@ -4,6 +4,8 @@ using System.Text.Json;
 using System.Linq;
 using Xunit;
 using PayByBank.Pokemon.Common.Domain.Pokemon;
+using Microsoft.Extensions.Logging;
+using Moq;
 
 namespace PayByBank.Pokemon.Services.Tests.Adapters
 {
@@ -17,7 +19,8 @@ namespace PayByBank.Pokemon.Services.Tests.Adapters
         {
             //Arrange
             var pokemonReturn = TestPokemon();
-            var sut = new PokemonConverterAdapter();
+            var loggerMock = new Mock<ILogger<PokemonConverterAdapter>>();
+            var sut = new PokemonConverterAdapter(loggerMock.Object);
             var expDescription = pokemonReturn.flavor_text_entries.FirstOrDefault(x => x.language.name == language).flavor_text
                 .Replace("\n", " ")
                 .Replace("\f", " ")
@@ -39,7 +42,8 @@ namespace PayByBank.Pokemon.Services.Tests.Adapters
         {
             //Arrange
             var pokemonReturn = new PokemonApiReturn();
-            var sut = new PokemonConverterAdapter();
+            var loggerMock = new Mock<ILogger<PokemonConverterAdapter>>();
+            var sut = new PokemonConverterAdapter(loggerMock.Object);
 
             //Act
             var response = sut.ConvertPokemon(pokemonReturn);

@@ -12,6 +12,7 @@ using System.Text.Json;
 using System;
 using PayByBank.Pokemon.Infrastructure.Repositories;
 using System.Web;
+using Microsoft.Extensions.Logging;
 
 namespace PayByBank.Pokemon.Infrastructure.Tests.Repositories
 {
@@ -32,7 +33,7 @@ namespace PayByBank.Pokemon.Infrastructure.Tests.Repositories
             var configurationSectionMock = new Mock<IConfigurationSection>();
             configurationSectionMock.Setup(x => x.Value).Returns(resource);
             var configurationMock = new Mock<IConfiguration>();
-            configurationMock.Setup(x => x.GetSection(It.Is<string>(k => k == Constants.TranslationApi))).Returns(configurationSectionMock.Object);
+            configurationMock.Setup(x => x.GetSection(It.Is<string>(k => k == ConstantValues.TranslationApi))).Returns(configurationSectionMock.Object);
             
             var translationType = TranslationType.YODA;
             var translationResponse = CreateTranslationReponse(text, translatedText, total);
@@ -53,7 +54,8 @@ namespace PayByBank.Pokemon.Infrastructure.Tests.Repositories
                 BaseAddress = new Uri(resource),
             };
 
-            var sut = new TranslationHttpRepository(httpClientFactoryMock.Object, configurationMock.Object);
+            var loggerMock = new Mock<ILogger<TranslationHttpRepository>>();
+            var sut = new TranslationHttpRepository(httpClientFactoryMock.Object, configurationMock.Object, loggerMock.Object);
             var token = new CancellationToken();
             httpClientFactoryMock.Setup(x => x.CreateClient(It.IsAny<string>())).Returns(httpClient);
 
@@ -87,7 +89,7 @@ namespace PayByBank.Pokemon.Infrastructure.Tests.Repositories
             var configurationSectionMock = new Mock<IConfigurationSection>();
             configurationSectionMock.Setup(x => x.Value).Returns(resource);
             var configurationMock = new Mock<IConfiguration>();
-            configurationMock.Setup(x => x.GetSection(It.Is<string>(k => k == Constants.TranslationApi))).Returns(configurationSectionMock.Object);
+            configurationMock.Setup(x => x.GetSection(It.Is<string>(k => k == ConstantValues.TranslationApi))).Returns(configurationSectionMock.Object);
 
             var translationType = TranslationType.YODA;
             var text = "Not translated text";
@@ -111,7 +113,8 @@ namespace PayByBank.Pokemon.Infrastructure.Tests.Repositories
                 BaseAddress = new Uri(resource),
             };
 
-            var sut = new TranslationHttpRepository(httpClientFactoryMock.Object, configurationMock.Object);
+            var loggerMock = new Mock<ILogger<TranslationHttpRepository>>();
+            var sut = new TranslationHttpRepository(httpClientFactoryMock.Object, configurationMock.Object, loggerMock.Object);
             var token = new CancellationToken();
             httpClientFactoryMock.Setup(x => x.CreateClient(It.IsAny<string>())).Returns(httpClient);
 
@@ -145,7 +148,7 @@ namespace PayByBank.Pokemon.Infrastructure.Tests.Repositories
             var configurationSectionMock = new Mock<IConfigurationSection>();
             configurationSectionMock.Setup(x => x.Value).Returns(resource);
             var configurationMock = new Mock<IConfiguration>();
-            configurationMock.Setup(x => x.GetSection(It.Is<string>(k => k == Constants.TranslationApi))).Returns(configurationSectionMock.Object);
+            configurationMock.Setup(x => x.GetSection(It.Is<string>(k => k == ConstantValues.TranslationApi))).Returns(configurationSectionMock.Object);
 
             var translationType = TranslationType.YODA;
             var text = "Not translated text";
@@ -169,7 +172,8 @@ namespace PayByBank.Pokemon.Infrastructure.Tests.Repositories
                 BaseAddress = new Uri(resource),
             };
 
-            var sut = new TranslationHttpRepository(httpClientFactoryMock.Object, configurationMock.Object);
+            var loggerMock = new Mock<ILogger<TranslationHttpRepository>>();
+            var sut = new TranslationHttpRepository(httpClientFactoryMock.Object, configurationMock.Object, loggerMock.Object);
             var token = new CancellationToken();
             httpClientFactoryMock.Setup(x => x.CreateClient(It.IsAny<string>())).Returns(httpClient);
 
@@ -203,7 +207,7 @@ namespace PayByBank.Pokemon.Infrastructure.Tests.Repositories
             var configurationSectionMock = new Mock<IConfigurationSection>();
             configurationSectionMock.Setup(x => x.Value).Returns(resource);
             var configurationMock = new Mock<IConfiguration>();
-            configurationMock.Setup(x => x.GetSection(It.Is<string>(k => k == Constants.TranslationApi))).Returns(configurationSectionMock.Object);
+            configurationMock.Setup(x => x.GetSection(It.Is<string>(k => k == ConstantValues.TranslationApi))).Returns(configurationSectionMock.Object);
 
             var text = "Not translated text";
             var translationType = TranslationType.YODA;
@@ -219,7 +223,8 @@ namespace PayByBank.Pokemon.Infrastructure.Tests.Repositories
                 BaseAddress = new Uri(resource),
             };
 
-            var sut = new TranslationHttpRepository(httpClientFactoryMock.Object, configurationMock.Object);
+            var loggerMock = new Mock<ILogger<TranslationHttpRepository>>();
+            var sut = new TranslationHttpRepository(httpClientFactoryMock.Object, configurationMock.Object, loggerMock.Object);
             var token = new CancellationToken();
             httpClientFactoryMock.Setup(x => x.CreateClient(It.IsAny<string>())).Returns(httpClient);
 

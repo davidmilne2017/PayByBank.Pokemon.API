@@ -12,6 +12,8 @@ using PayByBank.Pokemon.Services.Services;
 using System;
 using System.IO;
 using System.Reflection;
+using Prometheus;
+using PayByBank.Pokemon.API.ServiceExtensions;
 
 namespace PayByBank.Pokemon.API
 {
@@ -61,6 +63,8 @@ namespace PayByBank.Pokemon.API
             app.UseHttpsRedirection()
                 .UseRouting()
                 .UseAuthorization()
+                .UseHttpMetrics(PrometheusConfig.Options)
+                .UseMetricServer()
                 .UseEndpoints(endpoints =>
                 {
                     endpoints.MapControllers();

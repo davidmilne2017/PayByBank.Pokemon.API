@@ -12,6 +12,7 @@ using PayByBank.Pokemon.Common.Interfaces;
 using Microsoft.Extensions.Configuration;
 using PayByBank.Pokemon.Common.Constants;
 using PayByBank.Pokemon.Common.Domain.Pokemon;
+using Microsoft.Extensions.Logging;
 
 namespace PayByBank.Pokemon.Infrastructure.Tests.Repositories
 {
@@ -34,9 +35,9 @@ namespace PayByBank.Pokemon.Infrastructure.Tests.Repositories
             var pokemonConverterAdapterMock = new Mock<IPokemonConverterAdapter>();
 
             var configurationSectionMock = new Mock<IConfigurationSection>();
-            configurationSectionMock.Setup(x => x.Value).Returns(Constants.PokemonApi);
+            configurationSectionMock.Setup(x => x.Value).Returns(ConstantValues.PokemonApi);
             var configurationMock = new Mock<IConfiguration>();
-            configurationMock.Setup(x => x.GetSection(It.Is<string>(k => k == Constants.PokemonApi))).Returns(configurationSectionMock.Object);
+            configurationMock.Setup(x => x.GetSection(It.Is<string>(k => k == ConstantValues.PokemonApi))).Returns(configurationSectionMock.Object);
 
             var pokemonReturn = Common.Resources.Pokemon.ResourceManager.GetString("pikachu");
             var resource = "https://test.com/";
@@ -58,7 +59,8 @@ namespace PayByBank.Pokemon.Infrastructure.Tests.Repositories
                 BaseAddress = new Uri(resource),
             };
 
-            var sut = new PokemonHttpRepository(httpClientFactoryMock.Object, pokemonConverterAdapterMock.Object, configurationMock.Object);
+            var loggerMock = new Mock<ILogger<PokemonHttpRepository>>();
+            var sut = new PokemonHttpRepository(httpClientFactoryMock.Object, pokemonConverterAdapterMock.Object, configurationMock.Object, loggerMock.Object);
             var token = new CancellationToken();
             httpClientFactoryMock.Setup(x => x.CreateClient(It.IsAny<string>())).Returns(httpClient);
             pokemonConverterAdapterMock.Setup(x => x.ConvertPokemon(It.IsAny<PokemonApiReturn>())).Returns(expPokemon);
@@ -71,7 +73,7 @@ namespace PayByBank.Pokemon.Infrastructure.Tests.Repositories
             result.Should().BeOfType<PokemonResponse>();
             result.Should().Be(expPokemon);
             
-            var expectedUri = new Uri($"{resource}{Constants.PokemonApi}/{pokemonName}");
+            var expectedUri = new Uri($"{resource}{ConstantValues.PokemonApi}/{pokemonName}");
 
             handlerMock.Protected().Verify(
                "SendAsync",
@@ -93,9 +95,9 @@ namespace PayByBank.Pokemon.Infrastructure.Tests.Repositories
             var pokemonConverterAdapterMock = new Mock<IPokemonConverterAdapter>();
 
             var configurationSectionMock = new Mock<IConfigurationSection>();
-            configurationSectionMock.Setup(x => x.Value).Returns(Constants.PokemonApi);
+            configurationSectionMock.Setup(x => x.Value).Returns(ConstantValues.PokemonApi);
             var configurationMock = new Mock<IConfiguration>();
-            configurationMock.Setup(x => x.GetSection(It.Is<string>(k => k == Constants.PokemonApi))).Returns(configurationSectionMock.Object);
+            configurationMock.Setup(x => x.GetSection(It.Is<string>(k => k == ConstantValues.PokemonApi))).Returns(configurationSectionMock.Object);
 
             var handlerMock = new Mock<HttpMessageHandler>(MockBehavior.Strict);
             var baseAddress = "http://test.com/";
@@ -112,7 +114,8 @@ namespace PayByBank.Pokemon.Infrastructure.Tests.Repositories
                 BaseAddress = new Uri(baseAddress),
             };
 
-            var sut = new PokemonHttpRepository(httpClientFactoryMock.Object, pokemonConverterAdapterMock.Object, configurationMock.Object);
+            var loggerMock = new Mock<ILogger<PokemonHttpRepository>>();
+            var sut = new PokemonHttpRepository(httpClientFactoryMock.Object, pokemonConverterAdapterMock.Object, configurationMock.Object, loggerMock.Object);
             var token = new CancellationToken();
             httpClientFactoryMock.Setup(x => x.CreateClient(It.IsAny<string>())).Returns(httpClient);
 

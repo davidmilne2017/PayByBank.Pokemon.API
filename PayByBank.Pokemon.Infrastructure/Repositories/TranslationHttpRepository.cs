@@ -1,7 +1,10 @@
 ﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using PayByBank.Pokemon.Common.Constants;
 using PayByBank.Pokemon.Common.Domain.Translation;
+using PayByBank.Pokemon.Common.ErrorEnums;
 using PayByBank.Pokemon.Common.Interfaces;
+using PayByBank.Pokemon.Infrastructure.Monitoring.Errors;
 using System;
 using System.Net.Http;
 using System.Threading;
@@ -14,13 +17,16 @@ namespace PayByBank.Pokemon.Infrastructure.Repositories
     {
         protected override ApiSource ApiSource => ApiSource.TRANSLATION;
         private readonly string Resource;
+        private readonly ILogger<TranslationHttpRepository> logger;
 
         public TranslationHttpRepository(
             IHttpClientFactory httpClientFactory,
-            IConfiguration configuration)
-            : base(httpClientFactory)
+            IConfiguration configuration,
+            ILogger<TranslationHttpRepository> logger)
+            : base(httpClientFactory, logger)
         {
-            this.Resource = configuration.GetValue<string>(Constants.TranslationApi);
+            this.Resource = configuration.GetValue<string>(ConstantValues.TranslationApi);
+            this.logger = logger;
         }
 
         public async Task<string> TranslateText(string text, TranslationType translationType, CancellationToken cancellationToken)
@@ -40,8 +46,9 @@ namespace PayByBank.Pokemon.Infrastructure.Repositories
 
                 return (translationResponse.Contents?.Translated ?? text);                
             }
-            catch
+            catch (Exception ex)
             {
+                logger.CustomLogError(ErrorCategory.APPLICATION, ex, ConstantValues.Error_InternalError_Repository);
                 return default;
             }
         }

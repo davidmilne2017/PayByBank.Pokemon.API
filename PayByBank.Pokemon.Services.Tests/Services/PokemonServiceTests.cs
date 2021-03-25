@@ -9,6 +9,7 @@ using System.Threading;
 using PayByBank.Pokemon.Common.Domain.Pokemon;
 using System;
 using PayByBank.Pokemon.Common.Domain.Translation;
+using Microsoft.Extensions.Logging;
 
 namespace PayByBank.Pokemon.Services.Tests.Services
 {
@@ -30,7 +31,8 @@ namespace PayByBank.Pokemon.Services.Tests.Services
             //Arrange
             var pokemonHttpRepositoryMock = new Mock<IPokemonHttpRepository>();
             var translationHttpRepositoryMock = new Mock<ITranslationHttpRepository>();
-            var sut = new PokemonService(pokemonHttpRepositoryMock.Object, translationHttpRepositoryMock.Object);
+            var loggerMock = new Mock<ILogger<PokemonService>>();
+            var sut = new PokemonService(pokemonHttpRepositoryMock.Object, translationHttpRepositoryMock.Object, loggerMock.Object);
             var token = new CancellationToken();
             var expPokemon = fixture.Create<PokemonResponse>();
             pokemonHttpRepositoryMock.Setup(x => x.FindPokemonAsync(It.IsAny<string>(), It.IsAny<CancellationToken>())).ReturnsAsync(expPokemon);
@@ -49,7 +51,8 @@ namespace PayByBank.Pokemon.Services.Tests.Services
             //Arrange
             var pokemonHttpRepositoryMock = new Mock<IPokemonHttpRepository>();
             var translationHttpRepositoryMock = new Mock<ITranslationHttpRepository>();
-            var sut = new PokemonService(pokemonHttpRepositoryMock.Object, translationHttpRepositoryMock.Object);
+            var loggerMock = new Mock<ILogger<PokemonService>>();
+            var sut = new PokemonService(pokemonHttpRepositoryMock.Object, translationHttpRepositoryMock.Object, loggerMock.Object);
             var token = new CancellationToken();
             pokemonHttpRepositoryMock.Setup(x => x.FindPokemonAsync(It.IsAny<string>(), It.IsAny<CancellationToken>())).Throws(new Exception());
 
@@ -69,7 +72,8 @@ namespace PayByBank.Pokemon.Services.Tests.Services
             //Arrange
             var pokemonHttpRepositoryMock = new Mock<IPokemonHttpRepository>();
             var translationHttpRepositoryMock = new Mock<ITranslationHttpRepository>();
-            var sut = new PokemonService(pokemonHttpRepositoryMock.Object, translationHttpRepositoryMock.Object);
+            var loggerMock = new Mock<ILogger<PokemonService>>();
+            var sut = new PokemonService(pokemonHttpRepositoryMock.Object, translationHttpRepositoryMock.Object, loggerMock.Object);
             var token = new CancellationToken();
             fixture.Customize<PokemonResponse>(c => c.With(p => p.Habitat, habitat).With(p => p.IsLegendary, isLegendary));
             var expPokemon = fixture.Create<PokemonResponse>();

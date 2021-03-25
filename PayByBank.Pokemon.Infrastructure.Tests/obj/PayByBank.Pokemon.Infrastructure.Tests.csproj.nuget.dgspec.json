@@ -228,6 +228,10 @@
             "System.Configuration.ConfigurationManager": {
               "target": "Package",
               "version": "[5.0.0, )"
+            },
+            "prometheus-net": {
+              "target": "Package",
+              "version": "[4.1.1, )"
             }
           },
           "imports": [

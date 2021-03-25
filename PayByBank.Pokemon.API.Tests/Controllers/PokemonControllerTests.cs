@@ -11,6 +11,7 @@ using PayByBank.Pokemon.Common.Constants;
 using Microsoft.AspNetCore.Http;
 using PayByBank.Pokemon.Common.Domain.Pokemon;
 using AutoFixture;
+using Microsoft.Extensions.Logging;
 
 namespace PayByBank.Pokemon.API.Tests.Controllers
 {
@@ -25,7 +26,8 @@ namespace PayByBank.Pokemon.API.Tests.Controllers
             //Arrange
             var pokemonServiceMock = new Mock<IPokemonService>();
             var actionContextAccessorMock = new Mock<IActionContextAccessor>();
-            var sut = new PokemonController(pokemonServiceMock.Object, actionContextAccessorMock.Object);
+            var loggerMock = new Mock<ILogger<PokemonController>>();
+            var sut = new PokemonController(pokemonServiceMock.Object, actionContextAccessorMock.Object, loggerMock.Object);
             var cancellationToken = new CancellationToken();
 
             //Act
@@ -33,11 +35,11 @@ namespace PayByBank.Pokemon.API.Tests.Controllers
 
             //Assert
             var result = response.Result.Should().BeOfType<BadRequestObjectResult>().Subject;
-            result.Value.Should().Be(Constants.Error_NoName);
+            result.Value.Should().Be(ConstantValues.Error_NoName);
         }
 
         [Fact]
-        public async Task GetPokemon_WithException_Returns_NotFound()
+        public async Task GetPokemon_WithException_Returns_InternalServerError()
         {
             //Arrange
             var pokemonServiceMock = new Mock<IPokemonService>();
@@ -50,16 +52,17 @@ namespace PayByBank.Pokemon.API.Tests.Controllers
             var actionContext = new ActionContext();
             actionContext.HttpContext = httpContext;
             actionContextAccessorMock.Setup(x => x.ActionContext).Returns(actionContext);
-            
-            var sut = new PokemonController(pokemonServiceMock.Object, actionContextAccessorMock.Object);
+
+            var loggerMock = new Mock<ILogger<PokemonController>>();
+            var sut = new PokemonController(pokemonServiceMock.Object, actionContextAccessorMock.Object, loggerMock.Object);
             var cancellationToken = new CancellationToken();
 
             //Act
             var response = await sut.GetPokemon(pokemonName, cancellationToken);
 
             //Assert
-            var result = response.Result.Should().BeOfType<NotFoundObjectResult>().Subject;
-            result.Value.Should().Be(string.Format(Constants.Error_NotFound,pokemonName));
+            var result = response.Result.Should().BeOfType<ObjectResult>().Subject;
+            result.Value.Should().Be(ConstantValues.Error_InternalError_Client);
         }
 
         [Fact]
@@ -77,7 +80,8 @@ namespace PayByBank.Pokemon.API.Tests.Controllers
             actionContext.HttpContext = httpContext;
             actionContextAccessorMock.Setup(x => x.ActionContext).Returns(actionContext);
 
-            var sut = new PokemonController(pokemonServiceMock.Object, actionContextAccessorMock.Object);
+            var loggerMock = new Mock<ILogger<PokemonController>>();
+            var sut = new PokemonController(pokemonServiceMock.Object, actionContextAccessorMock.Object, loggerMock.Object);
             var cancellationToken = new CancellationToken();
 
             //Act
@@ -85,7 +89,7 @@ namespace PayByBank.Pokemon.API.Tests.Controllers
 
             //Assert
             var result = response.Result.Should().BeOfType<NotFoundObjectResult>().Subject;
-            result.Value.Should().Be(string.Format(Constants.Error_NotFound, pokemonName));
+            result.Value.Should().Be(string.Format(ConstantValues.Error_NotFound, pokemonName));
         }
 
         [Fact]
@@ -106,7 +110,8 @@ namespace PayByBank.Pokemon.API.Tests.Controllers
             actionContext.HttpContext = httpContext;
             actionContextAccessorMock.Setup(x => x.ActionContext).Returns(actionContext);
 
-            var sut = new PokemonController(pokemonServiceMock.Object, actionContextAccessorMock.Object);
+            var loggerMock = new Mock<ILogger<PokemonController>>();
+            var sut = new PokemonController(pokemonServiceMock.Object, actionContextAccessorMock.Object, loggerMock.Object);
             var cancellationToken = new CancellationToken();
 
             //Act

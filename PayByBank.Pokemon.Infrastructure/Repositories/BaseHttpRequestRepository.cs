@@ -3,6 +3,10 @@ using System;
 using System.Text.Json;
 using System.Threading.Tasks;
 using System.Threading;
+using Microsoft.Extensions.Logging;
+using PayByBank.Pokemon.Infrastructure.Monitoring.Errors;
+using PayByBank.Pokemon.Common.ErrorEnums;
+using PayByBank.Pokemon.Common.Constants;
 
 namespace PayByBank.Pokemon.Infrastructure.Repositories
 {
@@ -10,10 +14,12 @@ namespace PayByBank.Pokemon.Infrastructure.Repositories
     {
 
         private readonly IHttpClientFactory httpClientFactory;
+        private readonly ILogger<BaseHttpRequestRepository> logger;
 
-        protected BaseHttpRequestRepository(IHttpClientFactory httpClientFactory)
+        protected BaseHttpRequestRepository(IHttpClientFactory httpClientFactory, ILogger<BaseHttpRequestRepository> logger)
         {
             this.httpClientFactory = httpClientFactory;
+            this.logger = logger;
         }
 
         private static readonly JsonSerializerOptions Options = new JsonSerializerOptions
@@ -36,7 +42,7 @@ namespace PayByBank.Pokemon.Infrastructure.Repositories
                 {
                     var result = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
 
-                    //logger.LogWarning($"Failed to fetch {client.BaseAddress}. {result}");
+                    logger.CustomLogError(ErrorCategory.APPLICATION, string.Format(ConstantValues.Error_ExternalApi_Result, client.BaseAddress, result));
                     return default;
                 }
 
@@ -45,14 +51,9 @@ namespace PayByBank.Pokemon.Infrastructure.Repositories
 
                 return resp;
             }
-            catch (InvalidOperationException ex)
-            {
-                //logger.LogWarning($"Failed to fetch {client.BaseAddress} with exception: {ex.Message}.");
-                return default;
-            }
             catch (Exception ex)
             {
-                //logger.LogWarning($"Failed to fetch {client.BaseAddress} with exception: {ex.Message}.");
+                logger.CustomLogError(ErrorCategory.APPLICATION, string.Format(ConstantValues.Error_ExternalApi_Exception, client.BaseAddress, ex.Message));
                 return default;
             }
         }
