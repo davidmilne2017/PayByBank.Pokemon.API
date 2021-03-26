@@ -28,7 +28,7 @@ namespace PayByBank.Pokemon.Infrastructure.Adapters
                 {
                     Name = pokemon.names.FirstOrDefault(x => x.language.name == language).name,
                     IsLegendary = pokemon.is_legendary,
-                    Habitat = pokemon.habitat.name,
+                    Habitat = pokemon.habitat?.name ?? "",
                     Description = pokemon.flavor_text_entries.FirstOrDefault(x => x.language.name == language).flavor_text
                         .Replace("\n", " ")
                         .Replace("\f", " ")
