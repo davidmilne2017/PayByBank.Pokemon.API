@@ -1,11 +1,15 @@
-﻿namespace PayByBank.Pokemon.Common.Domain.Pokemon
+﻿using PayByBank.Pokemon.Common.Domain.Translation;
+using PayByBank.Pokemon.Common.Interfaces;
+
+namespace PayByBank.Pokemon.Common.Domain.Pokemon
 {
-    public class PokemonResponse
+    public class PokemonResponse : IPokemonResponse
     {
         public string Name { get; set; }
         public string Description { get; set; }
         public string Habitat { get; set; }
         public bool IsLegendary { get; set; }
+        public TranslationType TranslationType { get; set; } = TranslationType.SHAKESPEARE;
 
         public override bool Equals(object obj)
         {

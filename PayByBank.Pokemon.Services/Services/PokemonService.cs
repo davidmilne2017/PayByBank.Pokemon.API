@@ -1,13 +1,13 @@
 ﻿using Microsoft.Extensions.Logging;
 using PayByBank.Pokemon.Common.Constants;
 using PayByBank.Pokemon.Common.Domain.Pokemon;
-using PayByBank.Pokemon.Common.Domain.Translation;
 using PayByBank.Pokemon.Common.ErrorEnums;
 using PayByBank.Pokemon.Common.Interfaces;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
 using PayByBank.Pokemon.Infrastructure.Monitoring.Errors;
+using PayByBank.Pokemon.Domain.Pokemon.PokemonTypes;
 
 namespace PayByBank.Pokemon.Services.Services
 {
@@ -45,8 +45,8 @@ namespace PayByBank.Pokemon.Services.Services
         {
             try
             {
-                var translationType = pokemonResponse.Habitat.ToLower() == "cave" || pokemonResponse.IsLegendary ? TranslationType.YODA : TranslationType.SHAKESPEARE;
-                return await translationHttpRepository.TranslateText(pokemonResponse.Description, translationType, cancellationToken);
+                var pokemonToTranslate = new CavePokemon(new LegendaryPokemon(pokemonResponse));
+                return await translationHttpRepository.TranslateText(pokemonResponse.Description, pokemonToTranslate.TranslationType, cancellationToken);
             }
             catch (Exception ex)
             {

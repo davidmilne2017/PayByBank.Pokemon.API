@@ -75,7 +75,7 @@ namespace PayByBank.Pokemon.Services.Tests.Services
             var loggerMock = new Mock<ILogger<PokemonService>>();
             var sut = new PokemonService(pokemonHttpRepositoryMock.Object, translationHttpRepositoryMock.Object, loggerMock.Object);
             var token = new CancellationToken();
-            fixture.Customize<PokemonResponse>(c => c.With(p => p.Habitat, habitat).With(p => p.IsLegendary, isLegendary));
+            fixture.Customize<PokemonResponse>(c => c.With(p => p.Habitat, habitat).With(p => p.IsLegendary, isLegendary).With(p => p.TranslationType, TranslationType.SHAKESPEARE));
             var expPokemon = fixture.Create<PokemonResponse>();
             pokemonHttpRepositoryMock.Setup(x => x.FindPokemonAsync(It.IsAny<string>(), It.IsAny<CancellationToken>())).ReturnsAsync(expPokemon);
             translationHttpRepositoryMock.Setup(x => x.TranslateText(It.IsAny<string>(), TranslationType.YODA, It.IsAny<CancellationToken>())).ReturnsAsync(yodaTranslation);
